@@ -29,6 +29,7 @@ class WebComponentFactory {
 
   /**
    * All properties with primitive values are added to attributes.
+   * 所有原生property会被添加到attributes
    */
   private reflectPropertiesToAttributes() {
     Object.entries(this.componentProperties).forEach(([key, value]) => {
@@ -45,6 +46,7 @@ class WebComponentFactory {
 
   /**
    * Create new class that will serve as the Web Component.
+   * 创建一个新的服务于Web Component的class
    */
   public create() {
     const factory = this;
@@ -63,6 +65,7 @@ class WebComponentFactory {
       /**
        * Observe attributes for changes.
        * Part of the Web Component Standard.
+       * 监听属性变化，是Web Component标准中的一部分
        */
       public static get observedAttributes() {
         return Object.keys(factory.componentAttributes);
@@ -70,6 +73,7 @@ class WebComponentFactory {
 
       /**
        * Web Component gets mounted on the DOM.
+       * Web Component挂载到了DOM节点上
        */
       public connectedCallback() {
         this.mountReactApp({ initial: true });
@@ -79,6 +83,7 @@ class WebComponentFactory {
 
       /**
        * When an attribute is changed, this callback function is called.
+       * 当attribute发生变化时，这个callback会调用
        * @param name name of the attribute
        * @param oldValue value before change
        * @param newValue value after change
@@ -103,6 +108,7 @@ class WebComponentFactory {
 
       /**
        * When a property is changed, this callback function is called.
+       * 当property变化时，回调执行
        * @param name name of the property
        * @param oldValue value before change
        * @param newValue value after change
@@ -122,6 +128,7 @@ class WebComponentFactory {
 
       /**
        * Web Component gets unmounted from the DOM.
+       * Web Component从DOM上卸载
        */
       public disconnectedCallback() {
         ReactDOM.unmountComponentAtNode(this);
@@ -131,6 +138,8 @@ class WebComponentFactory {
        * Setup getters and setters for all properties.
        * Here we ensure that the 'propertyChangedCallback' will get invoked
        * when a property changes.
+       * 对所有属性设置getter和setter
+       * 这里我们是为了确保propertyChangedCallback能够在属性变化时被调用
        */
       public subscribeToProperties() {
         const propertyMap = {} as PropertyDescriptorMap;
@@ -162,6 +171,7 @@ class WebComponentFactory {
 
       /**
        * Syncronize all properties and attributes
+       * 同步所有properties和attributes
        */
       public syncronizePropertiesAndAttributes() {
         Object.keys(this.initialProperties).forEach((key: string) => {
@@ -180,6 +190,7 @@ class WebComponentFactory {
 
       /**
        * Transfer initial properties from the custom element.
+       * 从自定义元素转化初始属性
        */
       public transferInitialProperties() {
         Object.keys(this.initialProperties).forEach((key: string) => {
@@ -191,6 +202,7 @@ class WebComponentFactory {
 
       /**
        * Apply plugins
+       * 应用插件
        */
       public applyPlugins(application: JSX.Element): [JSX.Element, Element[]] {
         const shadowChildren: Element[] = [];
@@ -219,6 +231,7 @@ class WebComponentFactory {
 
       /**
        * Generate react props based on properties and attributes.
+       * 基于properties and attributes生成react props
        */
       public reactProps(): { [key: string]: unknown } {
         this.syncronizePropertiesAndAttributes();
@@ -227,6 +240,7 @@ class WebComponentFactory {
 
       /**
        * Mount React App onto the Web Component
+       * 将React App挂载到Web Component上
        */
       public mountReactApp(options?: { initial: boolean }) {
         const anonymousSlot = factory.anonymousSlot ? React.createElement('slot') : undefined;
@@ -259,6 +273,7 @@ class WebComponentFactory {
 
       /**
        * Dispatch an event from the Web Component
+       * 从Web Component出发一个事件
        */
       public eventDispatcher = (event: Event) => {
         this.dispatchEvent(event);
